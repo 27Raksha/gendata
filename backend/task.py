@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__,)
 CORS(app)
 
 
@@ -155,4 +155,4 @@ def continue_conversation():
     return jsonify({"message": "Conversation ongoing. You can send more user input."})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

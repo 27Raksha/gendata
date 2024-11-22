@@ -1,0 +1,30 @@
+{
+    "conversation": [
+        {
+            "user_input": "hii",
+            "system_prompts": [
+                "Provide detailed and concise answers.",
+                "Ensure all responses are user-friendly."
+            ],
+            "response_options": [
+                "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?",
+                "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?",
+                "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?"
+            ],
+            "chosen_response": "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?"
+        },
+        {
+            "user_input": "hii",
+            "system_prompts": [
+                "Provide detailed and concise answers.",
+                "Ensure all responses are user-friendly."
+            ],
+            "response_options": [
+                "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?",
+                "Hi! It's nice to meet you. Is there something I can help you with or would you like to chat?",
+                "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?"
+            ],
+            "chosen_response": "Hii! It's nice to meet you. Is there something I can help you with or would you like to chat?"
+        }
+    ]
+}
