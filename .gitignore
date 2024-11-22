@@ -1,0 +1,12 @@
+# Node.js dependencies
+frontend/node_modules/
+
+# Python virtual environments
+backend/venv/
+
+# Environment variables
+frontend/.env
+backend/.env
+
+# Build files
+frontend/build/
