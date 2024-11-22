@@ -13,14 +13,14 @@ export const ChatInterface = () => {
   const [selectedResponseIndex, setSelectedResponseIndex] = useState(null);
   
 
-//   const backendURL = "http://127.0.0.1:5000";
+  const backendURL = "https://gendata-spbs.onrender.com";
 
   useEffect(() => {
     document.title = "GEN DATA";
     const fetchPrompts = async () => {
       try {
         setIsThinking(true);
-        const response = await axios.get(`/prompts`);
+        const response = await axios.get(`${backendURL}/prompts`);
         setPrompts(response.data.prompts.map((prompt) => prompt.content));
       } catch (error) {
         console.error("Error fetching prompts:", error);
@@ -40,7 +40,7 @@ export const ChatInterface = () => {
     setShowPrompts(true);
 
     try {
-      const response = await axios.get(`/prompts`);
+      const response = await axios.get(`${backendURL}/prompts`);
       const fetchedPrompts = response.data.prompts || [];
       setPrompts(fetchedPrompts.map((prompt) => prompt.content));
       
@@ -62,7 +62,7 @@ export const ChatInterface = () => {
 
       
       setIsThinking(true); 
-      const response = await axios.post(`/prompts`, { content });
+      const response = await axios.post(`${backendURL}/prompts`, { content });
       const savedPrompt = response.data.prompt.content;
 
       
@@ -80,7 +80,7 @@ export const ChatInterface = () => {
   const handleDeletePromptBackend = async (index) => {
     try {
       const promptId = index + 1; 
-      await axios.delete(`/prompts/${promptId}`);
+      await axios.delete(`${backendURL}/prompts/${promptId}`);
       setPrompts(prompts.filter((_, i) => i !== index));
     } catch (error) {
       console.error("Error deleting prompt:", error);
@@ -91,7 +91,7 @@ export const ChatInterface = () => {
     try {
       const promptId = index + 1; 
       const updatedContent = prompts[index];
-      await axios.put(`/prompts/${promptId}`, {
+      await axios.put(`${backendURL}/prompts/${promptId}`, {
         content: updatedContent,
       });
       alert("Prompt updated successfully!");
@@ -113,7 +113,7 @@ export const ChatInterface = () => {
     }
 
     try {
-      const response = await axios.post(`/start`, {
+      const response = await axios.post(`${backendURL}/start`, {
         user_input: messages[messages.length - 1]?.text,
         system_prompts: prompts,
       });
@@ -128,7 +128,7 @@ export const ChatInterface = () => {
 
   const handleResponseSelect = async (response, index) => {
     try {
-      await axios.post(`/select`, { selected_index: index });
+      await axios.post(`${backendURL}/select`, { selected_index: index });
 
       setMessages([...messages, { text: response, type: "bot" }]);
       setResponses([]);
@@ -142,7 +142,7 @@ export const ChatInterface = () => {
 
   const handleContinue = async () => {
     try {
-      await axios.post(`/continue`);
+      await axios.post(`${backendURL}/continue`);
       setMessages([
         ...messages,
         { text: "You can ask another query.", type: "info" },
@@ -155,7 +155,7 @@ export const ChatInterface = () => {
 
   const handleDone = async () => {
     try {
-      await axios.post(`/stop`);
+      await axios.post(`${backendURL}/stop`);
       setMessages([
         ...messages,
         { text: "Thank you! Have a nice day.", type: "info" },
