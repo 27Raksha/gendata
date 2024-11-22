@@ -1,12 +1,12 @@
 # Node.js dependencies
-frontend/node_modules/
+node_modules/
 
 # Python virtual environments
 backend/venv/
 
 # Environment variables
-frontend/.env
+.env
 backend/.env
 
 # Build files
-frontend/build/
+build/
