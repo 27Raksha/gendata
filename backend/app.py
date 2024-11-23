@@ -38,7 +38,7 @@ def home():
 
 @app.route('/prompts', methods=['GET'])
 def get_prompts():
-    """Fetch all system prompts with their ObjectId."""
+    
     prompts = list(system_prompts_collection.find({}, {"_id": 1, "content": 1}))
     for prompt in prompts:
         prompt["_id"] = str(prompt["_id"])  
@@ -47,7 +47,7 @@ def get_prompts():
 
 @app.route('/prompts', methods=['POST'])
 def add_prompt():
-    """Add a new system prompt."""
+    
     new_prompt = request.json.get('content')
     if not new_prompt:
         return jsonify({"error": "Prompt content is required."}), 400
@@ -60,7 +60,7 @@ def add_prompt():
 
 @app.route('/prompts/<string:prompt_id>', methods=['PUT'])
 def edit_prompt(prompt_id):
-    """Edit an existing system prompt."""
+    
     updated_content = request.json.get('content')
     if not updated_content:
         return jsonify({"error": "Updated content is required."}), 400
@@ -80,7 +80,7 @@ def edit_prompt(prompt_id):
 
 @app.route('/prompts/<string:prompt_id>', methods=['DELETE'])
 def delete_prompt(prompt_id):
-    """Delete a system prompt."""
+    
     try:
         result = system_prompts_collection.delete_one({"_id": ObjectId(prompt_id)})
         if result.deleted_count == 0:
@@ -91,15 +91,16 @@ def delete_prompt(prompt_id):
         return jsonify({"error": str(e)}), 500
 
 
-def generate_responses(user_input, system_prompts, num_responses=3):
-    """Generate responses using system prompts and user input."""
-    messages = [
-        {"role": "system", "content": " ".join(system_prompts)},
-        {"role": "user", "content": user_input}
-    ]
-
+def generate_responses(user_input, system_prompts):
+    
     responses = []
-    for _ in range(num_responses):
+    for system_prompt in system_prompts:
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_input}
+        ]
+
+   
         completion = client.chat.completions.create(
             model="llama3-70b-8192",
             messages=messages,
@@ -115,7 +116,7 @@ def generate_responses(user_input, system_prompts, num_responses=3):
 
 @app.route('/start', methods=['POST'])
 def start_conversation():
-    """Start a conversation by generating responses."""
+    
     user_input = request.json.get('user_input')
     if not user_input:
         return jsonify({"error": "user_input is required."}), 400
@@ -138,7 +139,7 @@ def start_conversation():
 
 @app.route('/select', methods=['POST'])
 def select_response():
-    """Select a response from the generated options."""
+    
     selected_index = request.json.get('selected_index')
     if selected_index is None:
         return jsonify({"error": "selected_index is required."}), 400
@@ -156,7 +157,7 @@ def select_response():
 
 @app.route('/stop', methods=['POST'])
 def stop_conversation():
-    """Stop the conversation and save it to MongoDB."""
+    
     global conversation_log
     mongo_result = conversations_collection.insert_one({"conversation": conversation_log})
     conversation_log = []
@@ -168,7 +169,7 @@ def stop_conversation():
 
 @app.route('/continue', methods=['POST'])
 def continue_conversation():
-    """Continue the conversation."""
+    
     return jsonify({"message": "Conversation ongoing. You can send more user input."})
 
 
