@@ -71,7 +71,7 @@ python app.py
 4. **Set up the Frontend**:
    navigate to the folder
    ```bash
-   cd ../frontend
+   cd ..
    ```
    Install dependencies:
    ```bash
