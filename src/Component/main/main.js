@@ -180,106 +180,108 @@ export const ChatInterface = () => {
   };
   
   return (
-    <div className="flex justify-center w-full min-h-screen bg-gray-70 text-base">
-      <div className="w-[90%] relative bg-gray-70">
+    <div className="flex justify-center w-full min-h-screen bg-gray-100 text-sm">
+      <div className="w-full max-w-3xl relative bg-gray-100">
         
-        <div className="sticky top-0 bg-white z-10 flex items-center justify-between p-4 border-b">
-          <div className="flex items-center space-x-2">
-            <MessageSquare className="h-6 w-6" />
-            <span className="text-xl font-medium">GEN DATA</span>
+        {/* Header */}
+        <div className="sticky top-0 bg-white z-10 flex items-center justify-between p-2 border-b">
+          <div className="flex items-center space-x-1">
+            <MessageSquare className="h-5 w-5" />
+            <span className="text-lg font-medium">GEN DATA</span>
           </div>
         </div>
   
-        <div className="overflow-y-auto h-[calc(100vh-120px)] p-4 space-y-4 pb-20">
-          <div className="space-y-4">
-            {messages.map((message, index) => (
+        {/* Messages Container */}
+        <div className="overflow-y-auto h-[calc(100vh-140px)] p-2 space-y-2 pb-16">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex ${
+                message.type === "user"
+                  ? "justify-start"
+                  : message.type === "bot"
+                  ? "justify-end"
+                  : "justify-center"
+              }`}
+            >
               <div
-                key={index}
-                className={`flex ${
+                className={`${
                   message.type === "user"
-                    ? "justify-start"
+                    ? "bg-blue-500 text-white"
                     : message.type === "bot"
-                    ? "justify-end"
-                    : "justify-center"
-                }`}
+                    ? "bg-gray-200"
+                    : "bg-green-100 text-green-700"
+                } rounded-lg py-1 px-3 max-w-[85%] text-sm`}
               >
-                <div
-                  className={`${
-                    message.type === "user"
-                      ? "bg-blue-400 text-white"
-                      : message.type === "bot"
-                      ? "bg-gray-100"
-                      : "bg-green-50 text-green-700"
-                  } rounded-xl py-2 px-4 max-w-[90%] text-base`}
-                >
-                  {message.text}
-                </div>
+                {message.text}
               </div>
-            ))}
-            {isThinking && (
-              <div className="flex justify-end">
-                <div className="bg-gray-100 rounded-xl py-2 px-4 max-w-[90%] text-base">
-                  Thinking...
-                </div>
+            </div>
+          ))}
+          {isThinking && (
+            <div className="flex justify-end">
+              <div className="bg-gray-200 rounded-lg py-1 px-3 max-w-[85%] text-sm">
+                Thinking...
               </div>
-            )}
-          </div>
+            </div>
+          )}
   
+          {/* Prompts */}
           {showPrompts && (
-            <div className="px-4 py-4">
-              <h2 className="text-xl font-semibold mb-4">System Prompts</h2>
+            <div className="px-2 py-3">
+              <h2 className="text-lg font-semibold mb-2">System Prompts</h2>
               {prompts.map((prompt, index) => (
-                <div key={prompt._id || index} className="flex items-center mb-4">
+                <div key={prompt._id || index} className="flex items-center mb-2">
                   <input
                     type="text"
-                    className="flex-1 p-2 text-2xl border border-gray-300 rounded-lg"
+                    className="flex-1 p-1 text-sm border border-gray-300 rounded-md  break-words text-wrap"
                     value={prompt.content}
                     onChange={(e) => handlePromptChange(index, e.target.value)}
                     onKeyDown={(e) =>
                       e.key === "Enter" && handleSaveNewPrompt(index)
                     }
-                    placeholder="Type your prompt and press Enter"
+                    placeholder="Type a prompt..."
                   />
                   {prompt._id && (
                     <button
-                      className="ml-2 text-blue-500"
+                      className="ml-1 text-blue-500 text-xs"
                       onClick={() => handleUpdatePrompt(index)}
                     >
                       Update
                     </button>
                   )}
                   <button
-                    className="ml-2 text-red-500"
+                    className="ml-1 text-red-500 text-xs"
                     onClick={() => handleDeletePromptBackend(index)}
                   >
-                    <Trash className="h-6 w-6" />
+                    <Trash className="h-4 w-4" />
                   </button>
                 </div>
               ))}
               <button
-                className="flex items-center space-x-2 text-blue-500 mt-4 text-base"
+                className="flex items-center space-x-1 text-blue-500 mt-2 text-xs"
                 onClick={handleAddPrompt}
               >
-                <Plus className="h-6 w-6" />
-                <span>Add New Prompt</span>
+                <Plus className="h-4 w-4" />
+                <span>Add Prompt</span>
               </button>
               <button
-                className="mt-4 px-3 py-2 bg-blue-500 text-white text-base rounded-lg inline-block"
+                className="mt-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-md inline-block"
                 onClick={handleGetResponses}
               >
                 Get Response
               </button>
             </div>
           )}
-
+  
+          {/* Responses */}
           {responses.length > 0 && (
-            <div className="px-4 py-4">
-              <h2 className="text-xl font-semibold mb-4">Response Options</h2>
-              <form className="space-y-3">
+            <div className="px-2 py-3">
+              <h2 className="text-lg font-semibold mb-2">Response Options</h2>
+              <form className="space-y-2">
                 {responses.map((response, index) => (
                   <div
                     key={index}
-                    className={`flex items-center justify-between p-3 border rounded-md ${
+                    className={`flex items-center justify-between p-2 border rounded-md ${
                       selectedResponseIndex === index
                         ? "bg-blue-100 border-blue-400"
                         : "border-gray-300"
@@ -288,7 +290,7 @@ export const ChatInterface = () => {
                   >
                     <label
                       htmlFor={`response-${index}`}
-                      className="text-base text-gray-700 cursor-pointer flex-grow"
+                      className="text-xs text-gray-700 cursor-pointer flex-grow"
                     >
                       {response}
                     </label>
@@ -297,7 +299,7 @@ export const ChatInterface = () => {
                       id={`response-${index}`}
                       name="response"
                       value={index}
-                      className="w-5 h-5 text-blue-500 cursor-pointer"
+                      className="w-4 h-4 text-blue-500 cursor-pointer"
                       checked={selectedResponseIndex === index}
                       onChange={() => setSelectedResponseIndex(index)}
                     />
@@ -305,7 +307,7 @@ export const ChatInterface = () => {
                 ))}
                 <button
                   type="button"
-                  className="mt-4 px-3 py-2 bg-blue-500 text-white text-base rounded-md inline-block"
+                  className="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded-md inline-block"
                   onClick={() =>
                     handleResponseSelect(
                       responses[selectedResponseIndex],
@@ -320,16 +322,17 @@ export const ChatInterface = () => {
             </div>
           )}
   
+          {/* Options */}
           {showOptions && (
-            <div className="flex justify-center space-x-4 mt-4">
+            <div className="flex justify-center space-x-2 mt-2">
               <button
-                className="px-6 py-2 bg-blue-500 text-white text-base rounded-md"
+                className="px-4 py-1 bg-blue-500 text-white text-xs rounded-md"
                 onClick={handleContinue}
               >
                 Continue
               </button>
               <button
-                className="px-6 py-2 bg-red-500 text-white text-base rounded-md"
+                className="px-4 py-1 bg-red-500 text-white text-xs rounded-md"
                 onClick={handleDone}
               >
                 Done
@@ -337,31 +340,31 @@ export const ChatInterface = () => {
             </div>
           )}
           {showNewConversationButton && (
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-2">
               <button
-                className="px-6 py-2 bg-green-500 text-white text-base rounded-md"
+                className="px-4 py-1 bg-green-500 text-white text-xs rounded-md"
                 onClick={handleNewConversation}
               >
                 Start New Conversation
               </button>
             </div>
           )}
-
         </div>
   
-        <div className="fixed bottom-0 w-[90%] bg-white border-t">
-          <div className="p-4">
-            <div className="flex items-center bg-gray-50 rounded-full px-4 py-2">
+        {/* Input Box */}
+        <div className="fixed bottom-0 w-full max-w-3xl bg-white border-t">
+          <div className="p-2">
+            <div className="flex items-center bg-gray-50 rounded-full px-2 py-1">
               <input
                 type="text"
                 placeholder="Type your message..."
-                className="flex-1 bg-transparent outline-none text-base"
+                className="flex-1 bg-transparent outline-none text-xs"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendQuery()}
               />
               <button className="ml-2 text-gray-500" onClick={handleSendQuery}>
-                <MessageSquare className="h-6 w-6" />
+                <MessageSquare className="h-5 w-5" />
               </button>
             </div>
           </div>
