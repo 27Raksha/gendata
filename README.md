@@ -64,9 +64,30 @@ API_KEY=<Your_Groq_API_Key>
 MONGO_URI=<Your_MongoDB_URI>
 PORT=5000
 ```
-**Run the backend**:
+3. **Run the backend**:
 ```bash
 python app.py
 ```
+4. **Set up the Frontend**:
+   navigate to the folder
+   ```bash
+   cd ../frontend
+   ```
+   Install dependencies:
+   ```bash
+   npm install
+   ```
+   Update backend URL:
+   ```bash
+   const backendURL = "http://localhost:5000";
+   ```
+   Run the server:
+   ```bash
+   npm run dev
+   ```
+**Live Demo**
+The application is live and accessible at: **[GEN DATA Live Application](https://gendata-rouge.vercel.app/)**.
 
+**Demo Video link**
+The demo video link is available at: **[Video Link](https://drive.google.com/file/d/10odEKyOCUyq8RmLnnfHd63GDk7wchWqq/view?usp=sharing)**
 
